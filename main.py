@@ -15,36 +15,48 @@ def set_log_level(log_level: Optional[str] = None) -> None:
     log.info(f"log_level was set to {log_level}")
 
 
-def extract_records(log: logging.Logger, yamls_folder: str) -> list[dict]:
+def get_yaml_files(yamls_folder: str) -> list[str]:
+    return [filename for filename in os.listdir(yamls_folder) if filename.lower().endswith(".yaml")]
+
+
+def get_yaml_docs(log: logging.Logger, yamls_folder: str) -> list[dict]:
     yaml = YAML(typ="safe")
+    yaml_files = get_yaml_files(yamls_folder)
+    docs: list[dict] = []
+    for yaml_file in yaml_files:
+        log.info(f"Processing {yaml_file=}")
+        domain: str = yaml_file.lower().replace(".yaml", "")
+        log.info(f"Working on {domain=}")
+        with open(os.path.join(yamls_folder, yaml_file), "r") as f:
+            data = yaml.load_all(f)
+            for doc in data:
+                doc["domain"] = domain
+                docs.append(doc)
+    return docs
+
+
+def extract_records(log: logging.Logger, yamls_folder: str) -> list[dict]:
     records: list[dict] = []
-    for filename in os.listdir(yamls_folder):
-        log.info(f"Processing {filename}")
-        if filename.lower().endswith(".yaml"):
-            domain: str = filename.lower().replace(".yaml", "")
-            log.info(f"Working on {domain=}")
-            with open(os.path.join(yamls_folder, filename), "r") as f:
-                data = yaml.load_all(f)
-                for doc in data:
-                    subdomain = doc["name"].replace(domain, "").replace(".", "")
-                    rtype = doc["type"]
-                    ttl = doc["ttl"]
-                    for record in doc["rrdatas"]:
-                        priority = None
-                        content = record
-                        if rtype == "MX":
-                            priority = record.split(" ")[0]
-                            content = record.split(" ")[1]
-                        records.append(
-                            {
-                                "domain": domain,
-                                "subdomain": subdomain,
-                                "rtype": rtype,
-                                "ttl": ttl,
-                                "priority": priority,
-                                "content": content,
-                            }
-                        )
+    yaml_docs = get_yaml_docs(log, yamls_folder)
+    for doc in yaml_docs:
+        subdomain = doc["name"].replace(doc["domain"], "").replace(".", "")
+        rtype = doc["type"]
+        ttl = doc["ttl"]
+        for record in doc["rrdatas"]:
+            priority: Optional[int] = None
+            content: str = record
+            if rtype == "MX":
+                priority, content = record.split(" ")
+            records.append(
+                {
+                    "domain": doc["domain"],
+                    "subdomain": subdomain,
+                    "rtype": rtype,
+                    "ttl": ttl,
+                    "priority": priority,
+                    "content": content,
+                }
+            )
     return records
 
 
@@ -58,15 +70,14 @@ def create_record(
     priority: Optional[int] = None,
     dry_run: bool = True,
 ) -> None:
+    log_message: str = f"record {subdomain}.{domain} of type {rtype} with content {content}"
+    if priority:
+        log_message += f" and priority {priority}"
     try:
         if dry_run:
-            log.info(
-                f"Would create record {subdomain}.{domain} of type {rtype} with content {content} and priority {priority}"
-            )
+            log.info(f"Would create {log_message}")
         else:
-            log.info(
-                f"Creating record {subdomain}.{domain} of type {rtype} with content {content} and priority {priority}"
-            )
+            log.info(f"Creating {log_message}")
             pb.create(
                 domain=domain,
                 rtype=rtype,
@@ -76,7 +87,7 @@ def create_record(
                 priority=priority,
             )
     except Exception as e:
-        log.exception(f"Error creating record {subdomain}.{domain} of type {rtype} with content {content}: {e}")
+        log.exception(f"Error creating {log_message}: {e}")
 
 
 @click.command()
