@@ -9,20 +9,13 @@ from typing import Optional
 def set_log_level(log_level: Optional[str] = None) -> None:
     if log_level is None:
         log_level = os.environ.get("LOG_LEVEL", "INFO")
-    logging.basicConfig(
-        format=(
-           "%(asctime)s %(levelname)s (%(threadName)s) [%(name)s] %(message)s"
-        )
-    )
+    logging.basicConfig(format=("%(asctime)s %(levelname)s (%(threadName)s) [%(name)s] %(message)s"))
     log = logging.getLogger()  # Gets the root logger
     log.setLevel(log_level.upper())
     log.info(f"log_level was set to {log_level}")
 
 
-def extract_records(
-    log: logging.Logger,
-    yamls_folder: str
-) -> list[dict]:
+def extract_records(log: logging.Logger, yamls_folder: str) -> list[dict]:
     yaml = YAML(typ="safe")
     records: list[dict] = []
     for filename in os.listdir(yamls_folder):
@@ -90,20 +83,10 @@ def create_record(
 @click.option("--porkbun-api-key", help="Porkbun API key")
 @click.option("--porkbun-secret-api-key", help="Porkbun Secret API key")
 @click.option("--yamls-folder", help="Path to folder containing YAML files")
-@click.option(
-    "--dry-run/--no-dry-run",
-    is_flag=True,
-    default=True,
-    help="Whether to make changes or not"
-)
+@click.option("--dry-run/--no-dry-run", is_flag=True, default=True, help="Whether to make changes or not")
 @click.option(
     "--log-level",
-    type=click.Choice(
-        list(
-            logging._levelToName.values()
-        ),
-        case_sensitive=False
-    ),
+    type=click.Choice(list(logging._levelToName.values()), case_sensitive=False),
     default="INFO",
     help="Set the logging output level",
 )

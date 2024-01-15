@@ -9,13 +9,13 @@
 - Porkbun API Access is enabled for the domains you want to update
   - [Getting started with the Porkbun API](https://kb.porkbun.com/article/190-getting-started-with-the-porkbun-api)
 
-## How to install:
+## How to install
 
 ```shell
-$ poetry install --no-root
+poetry install --no-root
 ```
 
-## How to use:
+## How to use
 
 ### All flags
 
@@ -33,11 +33,11 @@ Options:
   --help                          Show this message and exit.
 ```
 
-### With environment variables:
+### With environment variables
 
 ```shell
-$ env GD2P_PORKBUN_API_KEY='pk1_...' \
-  GD2P_PORKBUN_SECRET_API_KEY='sk1_...' \
+$ env GD2P_PORKBUN_API_KEY='pk1_...' \    # pragma: allowlist secret
+  GD2P_PORKBUN_SECRET_API_KEY='sk1_...' \ # pragma: allowlist secret
   poetry run python main.py \
   --log-level DEBUG \
   --yamls-folder path/to/folder/with/exported/yamls
@@ -45,7 +45,7 @@ $ env GD2P_PORKBUN_API_KEY='pk1_...' \
 2024-01-05 23:30:11,085 DEBUG (MainThread) [__main__] dry_run=True, log_level='DEBUG'
 ```
 
-### With flags:
+### With flags
 
 ```shell
 $ poetry run python main.py \
