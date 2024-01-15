@@ -1,0 +1,38 @@
+[tool.poetry]
+name = "gdomains_2_porkbun"
+version = "0.0.1"
+description = "Create porkbun DNS records from Google Domains YAML exports"
+authors = ["Ricardo Rosales <728243+missingcharacter@users.noreply.github.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+click = "^8.1.7"
+ruamel-yaml = "^0.18.5"
+porkbun-api = {git = "https://codeberg.org/m3r/porkbun-api.git", rev = "prio"}
+
+[tool.poetry.group.dev.dependencies]
+poethepoet = "^0.24.0"
+black = "^23.12.0"
+flake8 = "^6.0.0"
+types-requests = "^2.31.0.20231231"
+mypy = "^1.8.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 120
+target-version = ["py310"]
+
+[tool.yamlfix]
+line_length = 1000
+comments_min_spaces_from_content = 1
+flow_style_sequence = false
+sequence_style = "keep_style"
+preserve_quotes = true
+
+[tool.poe.tasks]
+format = { cmd = "black .", help = "Reformat code to conform with `black` code style standards" }
+format-check = { cmd = "black --check .", help = "Check if code conforms with `black` code style standards" }
+lint = { cmd = "flake8 .", help = "Check source code using code quality tools" }
