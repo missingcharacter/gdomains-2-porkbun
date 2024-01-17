@@ -330,12 +330,14 @@ poetry-plugin = ["poetry (>=1.0,<2.0)"]
 
 [[package]]
 name = "porkbun-api"
-version = "1.0"
+version = "1.1.0"
 description = "A Python wrapper for Porkbun API with extra features and shortcuts"
 optional = false
 python-versions = ">=3.10"
-files = []
-develop = false
+files = [
+    {file = "porkbun-api-1.1.0.tar.gz", hash = "sha256:f67ef5b0b127bec4b150ab080539e8d1227034b4876639b15850dd59e2c7a0d4"},
+    {file = "porkbun_api-1.1.0-py3-none-any.whl", hash = "sha256:66c37014ac333346f0ee731398e41670edaad0c6b671790bf2bd7682d6409b83"},
+]
 
 [package.dependencies]
 certifi = "2023.5.7"
@@ -343,12 +345,6 @@ charset-normalizer = "3.2.0"
 idna = "3.4"
 requests = "2.31.0"
 urllib3 = "2.0.3"
-
-[package.source]
-type = "git"
-url = "https://codeberg.org/m3r/porkbun-api.git"
-reference = "prio"
-resolved_reference = "15979f0fa42d3a050e405cd6b133d14474fc846f"
 
 [[package]]
 name = "pycodestyle"
@@ -526,4 +522,4 @@ zstd = ["zstandard (>=0.18.0)"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "94698333e82c354c0266261add57070091005177e200c717f32df93783254fe9"
+content-hash = "cac51f17943357ba034f3a3d8e0dc4c90eb981116057cf95dc70f28151320cd8"

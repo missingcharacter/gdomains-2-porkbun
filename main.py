@@ -1,7 +1,7 @@
 import click
 import os
 import logging
-import porkbun_api as pb  # type: ignore
+import porkbun_api as pb
 from ruamel.yaml import YAML
 from typing import Optional
 

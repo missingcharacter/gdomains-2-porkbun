@@ -8,7 +8,7 @@ authors = ["Ricardo Rosales <728243+missingcharacter@users.noreply.github.com>"]
 python = "^3.10"
 click = "^8.1.7"
 ruamel-yaml = "^0.18.5"
-porkbun-api = {git = "https://codeberg.org/m3r/porkbun-api.git", rev = "prio"}
+porkbun-api = "^1.1.0"
 
 [tool.poetry.group.dev.dependencies]
 poethepoet = "^0.24.0"
