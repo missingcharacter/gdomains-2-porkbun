@@ -8,11 +8,11 @@ authors = ["Ricardo Rosales <728243+missingcharacter@users.noreply.github.com>"]
 python = "^3.10"
 click = "^8.1.7"
 ruamel-yaml = "^0.18.5"
-porkbun-api = "^1.1.0"
+porkbun-api = "^2.0.0"
 
 [tool.poetry.group.dev.dependencies]
-poethepoet = "^0.29.0"
-black = "^24.0.0"
+poethepoet = "^0.33.0"
+black = "^25.0.0"
 flake8 = "^7.0.0"
 types-requests = "^2.31.0.20231231"
 mypy = "^1.8.0"
