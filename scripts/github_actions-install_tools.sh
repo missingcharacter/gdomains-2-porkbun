@@ -49,8 +49,12 @@ function get_latest_github_tag() {
 OS="$(get_os)"
 
 echo "Python version is $(python -V)"
-pip install --upgrade pip wheel poetry
-poetry install --no-root
+echo "Install uv"
+curl -LsSf https://astral.sh/uv/install.sh | sh
+echo "Install packages via pip"
+pip install --upgrade pip wheel detect-secrets
+echo "Install project dependencies via uv"
+uv sync --no-install-project
 
 echo "Install shellcheck"
 SHELLCHECK_VERSION="$(get_latest_github_tag 'koalaman' 'shellcheck' 'true')"
