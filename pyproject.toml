@@ -1,29 +1,25 @@
-[tool.poetry]
+[project]
 name = "gdomains_2_porkbun"
 version = "0.0.1"
 description = "Create porkbun DNS records from Google Domains YAML exports"
-authors = ["Ricardo Rosales <728243+missingcharacter@users.noreply.github.com>"]
+authors = [{ name = "Ricardo Rosales", email = "728243+missingcharacter@users.noreply.github.com" }]
+requires-python = "~=3.10"
+dependencies = [
+    "click>=8.1.7,<9",
+    "ruamel-yaml>=0.18.5,<0.19",
+    "porkbun-api>=2.0.0,<3",
+]
 
-[tool.poetry.dependencies]
-python = "^3.10"
-click = "^8.1.7"
-ruamel-yaml = "^0.18.5"
-porkbun-api = "^2.0.0"
-
-[tool.poetry.group.dev.dependencies]
-poethepoet = "^0.35.0"
-black = "^25.0.0"
-flake8 = "^7.0.0"
-types-requests = "^2.31.0.20231231"
-mypy = "^1.8.0"
+[dependency-groups]
+dev = [
+    "poethepoet>=0.35.0,<0.36",
+    "types-requests>=2.31.0.20231231,<3",
+    "mypy>=1.8.0,<2",
+]
 
 [build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
-
-[tool.black]
-line-length = 120
-target-version = ["py310"]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
 [tool.yamlfix]
 line_length = 1000
@@ -32,7 +28,17 @@ flow_style_sequence = false
 sequence_style = "keep_style"
 preserve_quotes = true
 
-[tool.poe.tasks]
-format = { cmd = "black .", help = "Reformat code to conform with `black` code style standards" }
-format-check = { cmd = "black --check .", help = "Check if code conforms with `black` code style standards" }
-lint = { cmd = "flake8 .", help = "Check source code using code quality tools" }
+[tool.ruff]
+target-version = "py310"
+line-length = 120
+extend-exclude = [
+    "__pycache__",
+    "old",
+    "build"
+]
+
+[tool.ruff.lint]
+extend-select = ["I"] # asks ruff to include imports in linting
+
+[tool.ruff.lint.per-file-ignores]
+"**/__init__.py" = ["F401"]
