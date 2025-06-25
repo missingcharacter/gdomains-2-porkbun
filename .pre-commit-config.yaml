@@ -1,25 +1,11 @@
 ---
 repos:
-  - repo: local
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.11.2
     hooks:
-      - id: poe-format
-        name: poe-format
-        language: system
-        pass_filenames: false
-        entry: poetry
-        args:
-          - run
-          - poe
-          - format
-      - id: poe-lint
-        name: poe-lint
-        language: system
-        pass_filenames: false
-        entry: poetry
-        args:
-          - run
-          - poe
-          - lint
+      - id: ruff
+        args: [--fix]
+      - id: ruff-format
   - repo: https://github.com/lyz-code/yamlfix/
     rev: 1.17.0
     hooks:

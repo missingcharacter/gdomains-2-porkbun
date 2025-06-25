@@ -1,9 +1,10 @@
-import click
-import os
 import logging
+import os
+from typing import Optional
+
+import click
 import porkbun_api as pb
 from ruamel.yaml import YAML
-from typing import Optional
 
 
 def set_log_level(log_level: Optional[str] = None) -> None:
