@@ -13,7 +13,7 @@ dependencies = [
 
 [dependency-groups]
 dev = [
-    "poethepoet>=0.41,<0.42",
+    "poethepoet>=0.42,<0.43",
     "types-requests>=2.31.0.20231231,<3",
     "mypy>=1.8.0,<2",
 ]
